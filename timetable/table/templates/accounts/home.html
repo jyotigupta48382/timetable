@@ -1,0 +1,516 @@
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>home</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="table_script.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <style>
+
+    .hello-msg{
+    font-size:15px;
+    color:#fff;
+    margin-right:20px;
+}
+
+    table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 6px;
+    /*  max-width: 1000px;
+   width: 100%; */
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+    table button {
+     cursor: pointer;
+}
+
+        body {
+    background:#C8D8C7;
+    padding: 20px;
+}
+
+       td {
+    padding: 8px;
+    text-align: center;
+}
+
+      thead tr {
+    height: 60px;
+    background: #FFED86;
+    font-size: 16px;
+}
+
+tr:nth-child(1) {
+    height: 60px;
+    background: None !important;
+    border-color: #4EC5C1;
+}
+
+tr {
+    height: 48px;
+    border-bottom: 1px solid #C8D8C7;
+}
+
+tr:nth-child(even) {
+    background: #F1F1F1;
+}
+
+tr:nth-child(odd) {
+    background: #FEFEFE;
+}
+
+/* tr td:hover { background: #666; color: #FFF; }  */
+
+.button-panel {
+    margin: 0 auto;
+    background-color: None ;
+ /*   border: 1px solid crimson; */
+    border-radius: 6px;
+    padding: 10px;
+    width: 38%;
+    margin-top: 10px
+}
+
+.header{
+    text-align: center;
+    width: 50%;
+    background-color: ;
+    margin-bottom: 20px !important;
+    padding: 10px;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: 300;
+    color: #7F3D17;
+}
+.form-control {
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.btn-danger:hover{
+    background-color: #a83734;
+    border-color: #a83734;
+}
+.btn-info:hover {
+    background-color: #459eda;
+    border-color: #459eda;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.btn-warning{
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.selectedElement{
+    background-color:#b2a4b0;
+}
+
+.btn-md{
+    padding: 8px 14px;
+    font-size: 15px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+.btn-block{
+    display: block;
+    width: 100%;
+}
+.btn-row{
+    color: #fff;
+    background-color: #01ACAC;
+
+    border-color: #01ACAC;
+}
+
+.btn-row:hover{
+    background-color: #027c7c;
+    border-color: #027c7c;
+}
+
+.btn-success:hover{
+    background-color: #348734;
+    border-color: #348734;
+}
+
+    </style>
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+        </button>
+       <div class="collapse navbar-collapse" id="navbarNav">
+           <ul class="navbar-nav">
+               <li class="nav-item active">
+                   <a class="nav-link" href="{% url 'home' %}">HOME</a>
+               </li>
+           </ul>
+       </div>
+    <span class="hello-msg">Hello, {{request.user}}</span>
+    <span><a class="hello-msg" href="{% url 'logout' %}">LogOut</a></span>
+
+</nav>
+
+</head>
+<body onload="onLoadMethod()">
+
+    <table id="tableData">
+    <div class="header"><h4>TimeTable</h4></div>
+    </table>
+
+
+    <div class="button-panel">
+        <button class="btn btn-info" onclick="saveData()">Save Data</button>
+        <button class="btn btn-success" id="addRowColumn" onclick="addButton()">Add Button</button>
+        <button class="btn btn-danger" id="deleteRowColumn" onclick="deleteButton()">Delete Button</button>
+        <button class="btn btn-danger" id="" onclick="resetButton()">Reset Button</button>
+    </div>
+
+</body>
+<script>
+    var table = document.getElementById("tableData");
+
+var selectedRow = 0;
+var selectedColumn = 0;
+
+var selectedColumnIndex = 0;
+
+
+var toggleRow = null;
+var toggleColumnIndex = null;
+
+var dataArray = new Array();
+var storedDataArray = new Array();
+var jsonData;
+
+
+var storedRowLength = 0;
+var storedColumnLength = 0;
+
+
+var columnLength = 0;
+var rowLength = 0;
+
+var jsonDataFromStorage = localStorage.getItem('jsonData');
+var storedDataArray = JSON.parse(jsonDataFromStorage);
+
+if (storedDataArray != null) {
+    storedColumnLength = storedDataArray[1].length;
+    storedRowLength = storedDataArray.length;
+}
+
+document.getElementById('addRowColumn').style.display = "none";
+document.getElementById('deleteRowColumn').style.display = "none";
+
+
+function onLoadMethod() {
+    if (storedColumnLength == 0) {
+
+        for (r = 0; r < 3; r++) {
+            row = table.insertRow(r);
+            for (c = 0; c < 4; c++) {
+                if (r == 0 && c == 0) {
+                    row.insertCell(c);
+                } else if (r == 0) {
+                    row.insertCell(c).innerHTML = "<button class='btn btn-block btn-row' onClick='selectColumn(this)'>Column " + c + " </button>";
+                } else if (c == 0) {
+                    row.insertCell(c).innerHTML = "<button class='btn btn-md btn-row' onClick='selectRow(this)'>Row " + r + "</button>";
+                } else {
+                    row.insertCell(c).innerHTML = "<input type='text' class='form-control'>";
+                }
+
+            }
+        }
+    } else {
+
+        for (r = 0; r < storedRowLength; r++) {
+            row = table.insertRow(r);
+            for (c = 0; c < storedColumnLength; c++) {
+                if (r == 0 && c == 0) {
+                    row.insertCell(c);
+                } else if (r == 0) {
+                    row.insertCell(c).innerHTML = "<button class='btn btn-block btn-row' onClick='selectColumn(this)'>Column " + c + " </button>";
+                } else if (c == 0) {
+                    row.insertCell(c).innerHTML = "<button class='btn btn-md btn-row' onClick='selectRow(this)'>Row " + r + " </button>";
+                } else {
+                    row.insertCell(c).innerHTML = "<input type='text' class='form-control' value ='" + storedDataArray[r][c] + "' >";
+                }
+            }
+        }
+    }
+}
+
+function selectRow(e) {
+
+    rowLength = table.rows.length;
+    columnLength = table.rows[0].cells.length;
+    selectedRow = e.parentNode.parentNode;
+
+
+    for (i = 0; i < rowLength; i++) {
+        for (j = 0; j < columnLength; j++) {
+            table.rows[i].cells[j].classList.remove("selectedElement");
+        }
+    }
+
+    if (toggleRow == null) {
+
+        for (c = 0; c < columnLength; c++) {
+            selectedRow.cells[c].className = 'selectedElement';
+        }
+        toggleRow = selectedRow;
+    } else if (toggleRow == selectedRow) {
+        toggleRow = null;
+        selectedRow = 0;
+    } else {
+
+        for (c = 0; c < columnLength; c++) {
+            selectedRow.cells[c].className = 'selectedElement';
+        }
+        toggleRow = selectedRow;
+    }
+
+
+
+    if (selectedRow == 0) {
+        document.getElementById('addRowColumn').style.display = "none";
+        document.getElementById('deleteRowColumn').style.display = "none";
+
+
+    } else {
+        document.getElementById('addRowColumn').style.display = "inline-block";
+        document.getElementById('deleteRowColumn').style.display = "inline-block";
+    }
+    selectedColumn = 0;
+    toggleColumnIndex = null;
+}
+
+function selectColumn(e) {
+
+    rowLength = table.rows.length;
+    columnLength = table.rows[0].cells.length;
+    selectedColumn = e.parentNode;
+    selectedColumnIndex = selectedColumn.cellIndex;
+
+
+    for (i = 0; i < rowLength; i++) {
+        for (j = 0; j < columnLength; j++) {
+            table.rows[i].cells[j].classList.remove("selectedElement");
+        }
+    }
+
+    if (toggleColumnIndex == null) {
+        for (i = 0; i < rowLength; i++) {
+            table.rows[i].cells[selectedColumnIndex].className = 'selectedElement';
+        }
+        toggleColumnIndex = selectedColumnIndex;
+    } else if (toggleColumnIndex == selectedColumnIndex) {
+        for (i = 0; i < rowLength; i++) {
+            table.rows[i].cells[selectedColumnIndex].classList.remove("selectedElement");
+        }
+        toggleColumnIndex = null;
+        selectedColumn = 0;
+    } else {
+        for (i = 0; i < rowLength; i++) {
+            table.rows[i].cells[selectedColumnIndex].className = 'selectedElement';
+        }
+        toggleColumnIndex = selectedColumnIndex;
+    }
+
+
+    if (selectedColumn == 0) {
+        document.getElementById('addRowColumn').style.display = "none";
+        document.getElementById('deleteRowColumn').style.display = "none";
+    } else {
+        document.getElementById('addRowColumn').style.display = "inline-block";
+        document.getElementById('deleteRowColumn').style.display = "inline-block";
+    }
+
+    selectedRow = 0;
+    toggleRow = null;
+}
+
+function addButton() {
+
+    columnLength = table.rows[0].cells.length;
+    rowLength = table.rows.length;
+
+    document.getElementById('addRowColumn').style.display = "none";
+    document.getElementById('deleteRowColumn').style.display = "none";
+
+
+    if (selectedRow != 0) {
+
+        var row = table.insertRow(selectedRow.rowIndex + 1);
+
+
+        for (c = 0; c < columnLength; c++) {
+            var cell = row.insertCell(c);
+
+            if (c == 0) {
+                cell.innerHTML = "<button class='btn btn-md btn-row' onClick='selectRow(this)'>Row " + (selectedRow.rowIndex + 1) + " </button>";
+            } else {
+                cell.innerHTML = "<input type='text' class='form-control'>";
+            }
+            selectedRow.cells[c].classList.remove("selectedElement");
+        }
+    } else if (selectedColumn != 0) {
+
+        for (i = 0; i < rowLength; i++) {
+            if (i == 0) {
+                table.rows[i].insertCell(selectedColumnIndex + 1).innerHTML = "<button class='btn btn-block btn-row' onClick='selectColumn(this)'>Column " + (selectedColumnIndex + 1) + " </button>";
+            } else {
+                table.rows[i].insertCell(selectedColumnIndex + 1).innerHTML = "<input type='text' class='form-control'>";
+
+            }
+            table.rows[i].cells[selectedColumnIndex].classList.remove("selectedElement");
+        }
+    } else {
+        console.log("Error in Adding Column or Row");
+    }
+
+    tableNumbering();
+    selectedColumn = 0;
+    selectedRow = 0;
+    toggleRow = null;
+    toggleColumnIndex = null;
+
+}
+
+function deleteButton() {
+
+    columnLength = table.rows[0].cells.length;
+    rowLength = table.rows.length;
+    document.getElementById('addRowColumn').style.display = "none";
+    document.getElementById('deleteRowColumn').style.display = "none";
+
+    if (selectedRow != 0 && rowLength > 2) {
+        table.deleteRow(selectedRow.rowIndex);
+    } else if (selectedColumn != 0 && columnLength > 2) {
+
+        for (i = 0; i < rowLength; i++) {
+            table.rows[i].deleteCell(selectedColumnIndex);
+        }
+    } else {
+        document.getElementById('addRowColumn').style.display = "none";
+        document.getElementById('deleteRowColumn').style.display = "none";
+        for (i = 0; i < rowLength; i++) {
+            for (j = 0; j < columnLength; j++) {
+                table.rows[i].cells[j].classList.remove("selectedElement");
+            }
+        }
+        console.log("Error in Deleting Row or Column");
+        alert("1 Row or Column required");
+    }
+
+    tableNumbering();
+    selectedRow = 0;
+    selectedColumn = 0;
+    toggleRow = null;
+    toggleColumnIndex = null;
+
+}
+
+
+function saveData() {
+
+    columnLength = table.rows[0].cells.length - 1;
+    rowLength = table.rows.length - 1;
+
+
+
+    for (var i = 1; i <= rowLength; i++) {
+
+        dataArray[i] = new Array();
+
+        for (var j = 1; j <= columnLength; j++) {
+
+            dataArray[i][j] = table.rows[i].cells[j].children[0].value;
+        }
+    }
+
+    alert("Data Daved");
+
+    jsonData = JSON.stringify(dataArray);
+    localStorage.setItem('jsonData', jsonData);
+
+    jsonDataFromStorage = localStorage.getItem('jsonData');
+
+    storedDataArray = JSON.parse(jsonDataFromStorage);
+
+    storedColumnLength = storedDataArray[1].length;
+    storedRowLength = storedDataArray.length;
+}
+
+function tableNumbering() {
+    columnLength = table.rows[0].cells.length;
+    rowLength = table.rows.length;
+
+
+    for (r = 0; r < rowLength; r++) {
+        for (c = 0; c < columnLength; c++) {
+            if (r == 0 & c != 0) {
+                table.rows[r].cells[c].firstChild.innerHTML = "Column " + c;
+            } else if (r != 0 && c == 0) {
+                table.rows[r].cells[c].firstChild.innerHTML = "Row " + r;
+            }
+
+        }
+    }
+}
+
+
+function resetButton() {
+    if (confirm("You will loose your data")) {
+        window.localStorage.clear();
+        location.reload();
+    }
+}
+</script>
